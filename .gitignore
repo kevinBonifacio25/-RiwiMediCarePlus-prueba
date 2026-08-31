@@ -1,0 +1,28 @@
+# Dependencias
+node_modules/
+
+# Build
+dist/
+
+# Variables de entorno (nunca versionar secretos)
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Jest
+coverage/
+
+# Docker
+postgres_data/

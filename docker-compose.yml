@@ -1,0 +1,54 @@
+services:
+
+  api:
+    build: .
+    container_name: medicamentos_api
+
+    ports:
+      - "3000:3000"
+
+    environment:
+      PORT: 3000
+
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: medicamentos
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+
+      JWT_SECRET: mi_clave_secreta
+
+    depends_on:
+      - postgres
+
+    networks:
+      - medicamentos_red
+
+
+  postgres:
+    image: postgres:16-alpine
+
+    container_name: medicamentos_postgres
+
+    environment:
+      POSTGRES_DB: medicamentos
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    networks:
+      - medicamentos_red
+
+
+volumes:
+  postgres_data:
+
+
+networks:
+  medicamentos_red:
+    driver: bridge

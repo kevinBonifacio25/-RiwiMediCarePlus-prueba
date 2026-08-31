@@ -1,0 +1,20 @@
+# Contexto de build mínimo: excluir lo pesado y local.
+# Estas rutas NO contaminan la imagen; las dependencias y el
+# compilado se generan dentro del propio Dockerfile.
+
+# Dependencias y artefactos
+node_modules
+dist
+
+# Control de versiones
+.git/
+
+# Variables de entorno y secretos (nunca dentro de la imagen)
+.env
+.env.local
+.env.*.local
+
+
+# Datos locales de Postgres (si alguien los monta en el host)
+postgres_data/
+
