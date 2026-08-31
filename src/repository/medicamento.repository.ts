@@ -2,7 +2,7 @@ import { Medicamento } from "../models/medicine.model";
 
 import {
   MedicamentoRepositoryInterface
-} from "./interface/medicamento.repository.interface";
+} from "./interface/medicine.repository.interface";
 
 export class MedicamentoRepository
   implements MedicamentoRepositoryInterface {
