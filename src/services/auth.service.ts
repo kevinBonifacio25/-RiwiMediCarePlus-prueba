@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { UserRepository } from "../repository/user.repository";
-import { UserRole } from "../types/enums";
+import { UserRole } from "../types/enums.types";
 
 export class AuthService {
   private readonly userRepository: UserRepository = new UserRepository();
@@ -20,10 +20,14 @@ export class AuthService {
     if (!user) throw new Error("Invalid credentials");
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) throw new Error("Invalid credentials");
+
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) throw new Error("JWT_SECRET is not defined");
+
     return jwt.sign(
       { id: user.id, role: user.role },
-      process.env.JWT_SECRET as string,
-      { expiresIn: process.env.JWT_EXPIRES_IN || "1d" }
+      jwtSecret,
+      { expiresIn: (process.env.JWT_EXPIRES_IN || "1d") as jwt.SignOptions["expiresIn"] }
     );
   }
 }

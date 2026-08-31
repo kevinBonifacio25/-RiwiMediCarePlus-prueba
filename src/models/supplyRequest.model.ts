@@ -1,6 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../config/database";
-import { RequestStatus, RecordStatus } from "../types/enums";
+import { RequestStatus, RecordStatus } from "../types/enums.types";
 
 interface SupplyRequestAttributes { id: number; clinicId: number; medicineId: number; warehouseId: number; quantity: number; requestStatus: RequestStatus; status: RecordStatus; }
 interface SupplyRequestCreationAttributes extends Optional<SupplyRequestAttributes, "id" | "requestStatus" | "status"> {}

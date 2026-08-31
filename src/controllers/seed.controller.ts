@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import User from "../models/user.model";
-import Clinic from "../models/Clinic";
-import Warehouse from "../models/Warehouse";
-import Medicine from "../models/Medicine";
+import Clinic from "../models/clinic.model";
+import Warehouse from "../models/wareHouse.model";
+import Medicine from "../models/medicine.model";
 
 export class SeedController {
   upload = async (req: Request, res: Response, next: NextFunction): Promise<void> => {

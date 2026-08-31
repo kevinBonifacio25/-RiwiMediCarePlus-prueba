@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { CrudController } from "../controllers/CrudController";
+import { CrudController } from "../controllers/crud.controller";
 import { authenticate } from "../middlewares/auth.middleware";
 import { authorize } from "../middlewares/role.middleware";
-import { UserRole } from "../types/enums";
+import { UserRole } from "../types/enums.types";
 
 export const createCrudRouter = (controller: CrudController): Router => {
   const router = Router();

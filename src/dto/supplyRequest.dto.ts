@@ -1,4 +1,4 @@
-import { RequestStatus } from "../types/enums";
+import { RequestStatus } from "../types/enums.types";
 
 /**
  * DTO utilizado para crear una nueva solicitud

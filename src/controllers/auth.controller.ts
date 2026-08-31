@@ -1,19 +1,11 @@
-import {
-  Request,
-  Response,
-  NextFunction
-} from "express";
+import { Request, Response, NextFunction } from "express";
 
-import { AuthService } from "../services/AuthService";
+import { AuthService } from "../services/auth.service";
 
-import {
-  RegisterUserDto,
-  LoginDto
-} from "../dtos/auth.dto";
+import { RegisterUserDto, LoginDto } from "../dto/auth.dto";
 
 export class AuthController {
-  private readonly service: AuthService =
-    new AuthService();
+  private readonly service: AuthService = new AuthService();
 
   register = async (
     req: Request,
@@ -23,7 +15,7 @@ export class AuthController {
     try {
       const data: RegisterUserDto = req.body;
 
-      const user = await this.service.register(data);
+      const user = await this.service.register(data.email, data.name, data.password,data.role);
 
       res.status(201).json(user);
     } catch (error) {
@@ -39,12 +31,9 @@ export class AuthController {
     try {
       const data: LoginDto = req.body;
 
-      const token: string =
-        await this.service.login(data);
+      const token: string = await this.service.login(data.email, data.password);
 
-      res.status(200).json({
-        token
-      });
+      res.status(200).json({ token });
     } catch (error) {
       next(error);
     }

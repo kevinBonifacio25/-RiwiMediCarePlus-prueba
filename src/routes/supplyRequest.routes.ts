@@ -2,7 +2,7 @@ import { Router } from "express";
 import { SupplyRequestController } from "../controllers/SupplyRequest.controller";
 import { authenticate } from "../middlewares/auth.middleware";
 import { authorize } from "../middlewares/role.middleware";
-import { UserRole } from "../types/enums";
+import { UserRole } from "../types/enums.types";
 
 const router = Router();
 const controller = new SupplyRequestController();

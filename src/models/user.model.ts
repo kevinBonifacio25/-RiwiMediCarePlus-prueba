@@ -1,6 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../config/database";
-import { UserRole, RecordStatus } from "../types/enums";
+import { UserRole, RecordStatus } from "../types/enums.types";
 
 interface UserAttributes {
   id: number;

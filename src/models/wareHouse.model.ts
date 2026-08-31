@@ -1,6 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../config/database";
-import { RecordStatus } from "../types/enums";
+import { RecordStatus } from "../types/enums.types";
 
 interface WarehouseAttributes { id: number; name: string; location: string; status: RecordStatus; }
 interface WarehouseCreationAttributes extends Optional<WarehouseAttributes, "id" | "status"> {}

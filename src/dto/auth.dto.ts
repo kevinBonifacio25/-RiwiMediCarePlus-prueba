@@ -1,4 +1,4 @@
-import { UserRole } from "../types/enums";
+import { UserRole } from "../types/enums.types";
 
 /**
  * DTO utilizado para registrar un nuevo usuario en el sistema.

@@ -4,12 +4,12 @@ import {
   Response
 } from "express";
 
-import { SupplyRequestService } from "../services/SupplyRequestService";
+import { SupplyRequestService } from "../services/supplyRequest.service";
 
 import {
   CreateSupplyRequestDto,
   UpdateSupplyRequestStatusDto
-} from "../dtos/supplyRequest.dto";
+} from "../dto/supplyRequest.dto";
 
 export class SupplyRequestController {
   private readonly service: SupplyRequestService =
@@ -39,14 +39,13 @@ export class SupplyRequestController {
     next: NextFunction
   ): Promise<void> => {
     try {
-      const data: UpdateSupplyRequestStatusDto =
-        req.body;
+      const data = req.body as UpdateSupplyRequestStatusDto & { status: string };
 
-      const request =
-        await this.service.updateStatus(
-          Number(req.params.id),
-          data
-        );
+      const request = await this.service.updateStatus(
+        Number(req.params.id),
+    
+        (data.status as unknown) as any
+      );
 
       res.json(request);
     } catch (error) {

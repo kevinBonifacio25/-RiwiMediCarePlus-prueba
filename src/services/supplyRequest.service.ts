@@ -2,7 +2,7 @@ import { SupplyRequestRepository } from "../repository/supplyRequest.repository"
 import { ClinicRepository } from "../repository/clinic.repository";
 import { MedicineRepository } from "../repository/medicine.repository";
 import { WarehouseRepository } from "../repository/wareHouse.repository";
-import { RequestStatus } from "../types/enums";
+import { RequestStatus } from "../types/enums.types";
 import SupplyRequest from "../models/supplyRequest.model";
 
 export class SupplyRequestService {
