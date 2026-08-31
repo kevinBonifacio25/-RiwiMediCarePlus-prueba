@@ -1,71 +1,13 @@
-import app from "./app";
-
-import { sequelize } from "./config/database";
-
-import { Usuario } from "./models/user.model";
-import { Medicamento } from "./models/medicine.model";
-import { Solicitud } from "./models/clinic.model";
-import { SolicitudDetalle } from "./models/supplyRequest.model";
-
 import dotenv from "dotenv";
+import app from "./app";
+import sequelize from "./config/database";
 
 dotenv.config();
 
+const port: number = Number(process.env.PORT) || 3000;
 
-// Relaciones
-
-Usuario.hasMany(Solicitud, {
-  foreignKey: "usuarioId"
-});
-
-Solicitud.belongsTo(Usuario, {
-  foreignKey: "usuarioId"
-});
-
-Solicitud.hasMany(SolicitudDetalle, {
-  foreignKey: "solicitudId"
-});
-
-SolicitudDetalle.belongsTo(Solicitud, {
-  foreignKey: "solicitudId"
-});
-
-Medicamento.hasMany(SolicitudDetalle, {
-  foreignKey: "medicamentoId"
-});
-
-SolicitudDetalle.belongsTo(Medicamento, {
-  foreignKey: "medicamentoId"
-});
-
-
-// Iniciar servidor
-
-const PORT =
-  process.env.PORT || 3000;
-
-sequelize
-  .sync()
+sequelize.sync()
   .then(() => {
-
-    console.log(
-      "Base de datos conectada"
-    );
-
-    app.listen(PORT, () => {
-
-      console.log(
-        `Servidor ejecutándose en puerto ${PORT}`
-      );
-
-    });
-
+    app.listen(port, () => console.log(`Server running on port ${port}`));
   })
-  .catch((error) => {
-
-    console.error(
-      "Error conectando a la base de datos:",
-      error
-    );
-
-  });
+  .catch((error: Error) => console.error("Database connection error:", error));

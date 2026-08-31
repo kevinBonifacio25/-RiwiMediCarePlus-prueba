@@ -35,7 +35,7 @@ const controller = new AuthController();
  *                 example: Juan Pérez
  *               email:
  *                 type: string
- *                 example: juan@email.com
+ *                 example: juan@gmail.com
  *               password:
  *                 type: string
  *                 example: Password123
