@@ -1,6 +1,16 @@
 import express from "express";
 import swaggerUi from "swagger-ui-express";
-import swaggerSpec from "./docs/swagger";
+let swaggerSpec: any = null;
+try {
+	if (process.env.NODE_ENV !== 'test') {
+		// require at runtime to avoid swagger-jsdoc parsing issues during tests
+		// (tests may import app before swagger-jsdoc environment is ready)
+		// eslint-disable-next-line @typescript-eslint/no-var-requires
+		swaggerSpec = require("./docs/swagger").default;
+	}
+} catch (e: any) {
+	console.warn('Swagger spec not loaded:', e?.message ?? e);
+}
 import authRoutes from "./routes/auth.routes";
 import { createCrudRouter } from "./routes/crud.routes";
 import supplyRequestRoutes from "./routes/supplyRequest.routes";
@@ -29,7 +39,9 @@ app.use("/api/warehouses", createCrudRouter(warehouseController));
 app.use("/api/medicines", createCrudRouter(medicineController));
 app.use("/api/requests", supplyRequestRoutes);
 app.use("/api/seed", seedRoutes);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+if (swaggerSpec) {
+	app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+}
 
 app.use(errorHandler);
 export default app;

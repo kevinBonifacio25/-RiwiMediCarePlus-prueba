@@ -30,4 +30,9 @@ export class AuthService {
       { expiresIn: (process.env.JWT_EXPIRES_IN || "1d") as jwt.SignOptions["expiresIn"] }
     );
   }
+
+  async getAllUsers(): Promise<any[]> {
+    const users = await this.userRepository.findAll();
+    return users.map(u => ({ id: u.id, name: u.name, email: u.email, role: u.role }));
+  }
 }

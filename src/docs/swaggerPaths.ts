@@ -181,6 +181,7 @@
  *     tags: [Medicamentos]
  *     summary: Consultar un medicamento por ID
  *     security: [{ bearerAuth: [] }]
+ *     security: [{ bearerAuth: [] }]
  *     parameters:
  *       - in: path
  *         name: id
@@ -340,5 +341,35 @@
  *         description: No autenticado
  *       403:
  *         description: Solo ADMIN
+ */
+/**
+ * @swagger
+ * /api/auth/users:
+ *   get:
+ *     tags: [Autenticación]
+ *     summary: Obtener todos los usuarios registrados (sin password)
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200:
+ *         description: Lista de usuarios
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   name:
+ *                     type: string
+ *                   email:
+ *                     type: string
+ *                   role:
+ *                     type: string
+ *       401:
+ *         description: No autenticado
+ *       403:
+ *         description: Sin permisos (solo ADMIN)
  */
 export {};

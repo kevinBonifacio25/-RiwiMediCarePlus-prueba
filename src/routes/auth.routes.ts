@@ -1,5 +1,8 @@
 import { Router } from "express";
 import { AuthController } from "../controllers/auth.controller";
+import { authenticate } from "../middlewares/auth.middleware";
+import { authorize } from "../middlewares/role.middleware";
+import { UserRole } from "../types/enums.types";
 
 const router = Router();
 const controller = new AuthController();
@@ -85,5 +88,8 @@ router.post("/register", controller.register);
  *         description: Credenciales inválidas
  */
 router.post("/login", controller.login);
+
+// Lista todos los usuarios (solo ADMIN)
+router.get("/users", authenticate, authorize(UserRole.ADMIN), controller.getAll);
 
 export default router;

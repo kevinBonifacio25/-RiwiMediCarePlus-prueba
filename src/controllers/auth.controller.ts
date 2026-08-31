@@ -15,7 +15,7 @@ export class AuthController {
     try {
       const data: RegisterUserDto = req.body;
 
-      const user = await this.service.register(data.email, data.name, data.password,data.role);
+      const user = await this.service.register(data.name, data.email, data.password, data.role);
 
       res.status(201).json(user);
     } catch (error) {
@@ -34,6 +34,19 @@ export class AuthController {
       const token: string = await this.service.login(data.email, data.password);
 
       res.status(200).json({ token });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  getAll = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    try {
+      const users = await this.service.getAllUsers();
+      res.status(200).json(users);
     } catch (error) {
       next(error);
     }
