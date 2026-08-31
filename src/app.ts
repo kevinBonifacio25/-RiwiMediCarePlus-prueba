@@ -6,7 +6,7 @@ import authRoutes from "./routes/auth.routes";
 import medicamentoRoutes from "./routes/medicamento.routes";
 import solicitudRoutes from "./routes/solicitud.routes";
 
-import { swaggerSpec } from "./config/swagger";
+import { swaggerSpec } from "./docs/swagger";
 
 const app = express();
 

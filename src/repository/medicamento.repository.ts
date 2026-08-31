@@ -1,4 +1,4 @@
-import { Medicamento } from "../models/Medicamento";
+import { Medicamento } from "../models/medicine.model";
 
 import {
   MedicamentoRepositoryInterface

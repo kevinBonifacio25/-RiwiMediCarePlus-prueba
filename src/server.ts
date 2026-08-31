@@ -2,10 +2,10 @@ import app from "./app";
 
 import { sequelize } from "./config/database";
 
-import { Usuario } from "./models/Usuario";
-import { Medicamento } from "./models/Medicamento";
-import { Solicitud } from "./models/Solicitud";
-import { SolicitudDetalle } from "./models/SolicitudDetalle";
+import { Usuario } from "./models/user.model";
+import { Medicamento } from "./models/medicine.model";
+import { Solicitud } from "./models/clinic.model";
+import { SolicitudDetalle } from "./models/supplyRequest.model";
 
 import dotenv from "dotenv";
 

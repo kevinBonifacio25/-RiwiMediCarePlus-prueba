@@ -1,54 +1,39 @@
 services:
-
   api:
     build: .
-    container_name: medicamentos_api
-
     ports:
       - "3000:3000"
-
     environment:
       PORT: 3000
-
       DB_HOST: postgres
       DB_PORT: 5432
-      DB_NAME: medicamentos
+      DB_NAME: riwi_medicare
       DB_USER: postgres
       DB_PASSWORD: postgres
-
-      JWT_SECRET: mi_clave_secreta
-
+      JWT_SECRET: secret_key
+      JWT_EXPIRES_IN: 1d
     depends_on:
       - postgres
-
     networks:
-      - medicamentos_red
-
+      - medicare-network
 
   postgres:
-    image: postgres:16-alpine
-
-    container_name: medicamentos_postgres
-
+    image: postgres:16
     environment:
-      POSTGRES_DB: medicamentos
+      POSTGRES_DB: riwi_medicare
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-
     ports:
       - "5432:5432"
-
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
-      - medicamentos_red
-
+      - medicare-network
 
 volumes:
   postgres_data:
 
-
 networks:
-  medicamentos_red:
+  medicare-network:
     driver: bridge

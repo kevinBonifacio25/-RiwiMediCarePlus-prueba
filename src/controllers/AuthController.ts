@@ -1,20 +1,52 @@
-import { Request, Response, NextFunction } from "express";
+import {
+  Request,
+  Response,
+  NextFunction
+} from "express";
+
 import { AuthService } from "../services/AuthService";
 
-export class AuthController {
-  private readonly service = new AuthService();
+import {
+  RegisterUserDto,
+  LoginDto
+} from "../dtos/auth.dto";
 
-  register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export class AuthController {
+  private readonly service: AuthService =
+    new AuthService();
+
+  register = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
     try {
-      const user = await this.service.register(req.body.name, req.body.email, req.body.password, req.body.role);
+      const data: RegisterUserDto = req.body;
+
+      const user = await this.service.register(data);
+
       res.status(201).json(user);
-    } catch (error) { next(error); }
+    } catch (error) {
+      next(error);
+    }
   };
 
-  login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  login = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
     try {
-      const token = await this.service.login(req.body.email, req.body.password);
-      res.json({ token });
-    } catch (error) { next(error); }
+      const data: LoginDto = req.body;
+
+      const token: string =
+        await this.service.login(data);
+
+      res.status(200).json({
+        token
+      });
+    } catch (error) {
+      next(error);
+    }
   };
 }

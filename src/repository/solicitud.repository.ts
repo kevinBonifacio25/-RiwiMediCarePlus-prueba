@@ -1,4 +1,4 @@
-import { Solicitud } from "../models/Solicitud";
+import { Solicitud } from "../models/clinic.model";
 
 import {
   SolicitudRepositoryInterface
