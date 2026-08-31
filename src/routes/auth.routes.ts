@@ -1,19 +1,23 @@
 import { Router } from "express";
-
-import {
-  registrar,
-  login
-} from "../controllers/AuthController";
+import { AuthController } from "../controllers/AuthController";
 
 const router = Router();
+const controller = new AuthController();
+
+/**
+ * @swagger
+ * tags:
+ *   - name: Autenticación
+ *     description: Endpoints para registro e inicio de sesión
+ */
 
 /**
  * @swagger
  * /api/auth/register:
  *   post:
- *     summary: Registrar un usuario
- *     tags:
- *       - Autenticación
+ *     tags: [Autenticación]
+ *     summary: Registrar un nuevo usuario
+ *     description: Permite registrar usuarios con rol ADMIN o REQUEST_MANAGER. Esta ruta no requiere JWT.
  *     requestBody:
  *       required: true
  *       content:
@@ -21,34 +25,39 @@ const router = Router();
  *           schema:
  *             type: object
  *             required:
- *               - nombre
+ *               - name
  *               - email
  *               - password
- *           properties:
- *             nombre:
- *               type: string
- *               example: Juan Perez
- *             email:
- *               type: string
- *               example: juan@gmail.com
- *             password:
- *               type: string
- *               example: 123456
+ *               - role
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: Juan Pérez
+ *               email:
+ *                 type: string
+ *                 example: juan@email.com
+ *               password:
+ *                 type: string
+ *                 example: Password123
+ *               role:
+ *                 type: string
+ *                 enum: [ADMIN, REQUEST_MANAGER]
+ *                 example: ADMIN
  *     responses:
  *       201:
- *         description: Usuario creado correctamente
+ *         description: Usuario registrado correctamente
  *       400:
- *         description: Error al crear usuario
+ *         description: Datos inválidos, rol inválido o correo ya registrado
  */
-router.post("/register", registrar);
+router.post("/register", controller.register);
 
 /**
  * @swagger
  * /api/auth/login:
  *   post:
+ *     tags: [Autenticación]
  *     summary: Iniciar sesión
- *     tags:
- *       - Autenticación
+ *     description: Autentica un usuario y devuelve un token JWT.
  *     requestBody:
  *       required: true
  *       content:
@@ -61,16 +70,20 @@ router.post("/register", registrar);
  *             properties:
  *               email:
  *                 type: string
- *                 example: juan@gmail.com
+ *                 example: admin@riwi.com
  *               password:
  *                 type: string
- *                 example: 123456
+ *                 example: Admin123
  *     responses:
  *       200:
- *         description: Login correcto
- *       401:
- *         description: Credenciales incorrectas
+ *         description: Inicio de sesión exitoso
+ *         content:
+ *           application/json:
+ *             example:
+ *               token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+ *       400:
+ *         description: Credenciales inválidas
  */
-router.post("/login", login);
+router.post("/login", controller.login);
 
 export default router;

@@ -1,7 +1,7 @@
-import Clinic from "./Clinic";
-import Warehouse from "./Warehouse";
-import Medicine from "./Medicine";
-import SupplyRequest from "./SupplyRequest";
+import Clinic from "./clinic.model";
+import Warehouse from "./wareHouse.model";
+import Medicine from "./medicine.model";
+import SupplyRequest from "./supplyRequest.model";
 
 Warehouse.hasMany(Medicine, { foreignKey: "warehouseId" });
 Medicine.belongsTo(Warehouse, { foreignKey: "warehouseId" });

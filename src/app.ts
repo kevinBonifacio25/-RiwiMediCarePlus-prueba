@@ -3,8 +3,8 @@ import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 
 import authRoutes from "./routes/auth.routes";
-import medicamentoRoutes from "./routes/medicamento.routes";
-import solicitudRoutes from "./routes/solicitud.routes";
+import medicamentoRoutes from "./routes/crud.routes";
+import solicitudRoutes from "./routes/seed.routes";
 
 import { swaggerSpec } from "./docs/swagger";
 

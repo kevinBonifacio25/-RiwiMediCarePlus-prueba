@@ -9,7 +9,8 @@ import { Model } from "sequelize";
  * @template UpdateDto Tipo de datos permitidos para actualizar un registro.
  */
 export interface IBaseRepository<
-  T extends Model,
+  T extends 
+  Model,
   CreateDto,
   UpdateDto
 > {

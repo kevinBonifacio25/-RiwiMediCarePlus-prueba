@@ -1,39 +1,17 @@
-import { ClinicRepository } from "../repositories/ClinicRepository";
-import { CrudService } from "./CrudService";
-import Clinic from "../models/Clinic";
+import { ClinicRepository } from "../repository/clinic.repository";
+import { CrudService } from "./crud.service";
+import Clinic from "../models/clinic.model";
 
-import {
-  CreateClinicDto,
-  UpdateClinicDto
-} from "../dtos/clinic.dto";
-
-export class ClinicService extends CrudService<
-  Clinic,
-  CreateClinicDto,
-  UpdateClinicDto
-> {
+export class ClinicService extends CrudService<Clinic, any, any> {
   private readonly clinicRepository: ClinicRepository;
-
   constructor() {
     const repository = new ClinicRepository();
-
     super(repository);
-
     this.clinicRepository = repository;
   }
-
-  async create(
-    data: CreateClinicDto
-  ): Promise<Clinic> {
-    const clinic: Clinic | null =
-      await this.clinicRepository.findByNit(data.nit);
-
-    if (clinic) {
-      throw new Error(
-        "Ya existe una clínica registrada con este NIT"
-      );
-    }
-
+  async create(data: any): Promise<Clinic> {
+    const clinic = await this.clinicRepository.findByNit(data.nit);
+    if (clinic) throw new Error("Clinic NIT already exists");
     return super.create(data);
   }
 }
