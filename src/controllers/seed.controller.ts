@@ -5,7 +5,15 @@ import Clinic from "../models/clinic.model";
 import Warehouse from "../models/wareHouse.model";
 import Medicine from "../models/medicine.model";
 
+/**
+ * Controlador que procesa el registro inicial de datos del sistema
+ * a partir de un archivo JSON cargado por el administrador.
+ */
 export class SeedController {
+  /**
+   * Recibe un JSON con usuarios, clínicas, almacenes y medicamentos,
+   * hashea las contraseñas y crea los registros si no existen.
+   */
   upload = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       if (!req.file) throw new Error("JSON file is required");

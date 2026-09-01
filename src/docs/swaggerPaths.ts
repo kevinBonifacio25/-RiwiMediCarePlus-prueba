@@ -181,7 +181,6 @@
  *     tags: [Medicamentos]
  *     summary: Consultar un medicamento por ID
  *     security: [{ bearerAuth: [] }]
- *     security: [{ bearerAuth: [] }]
  *     parameters:
  *       - in: path
  *         name: id
