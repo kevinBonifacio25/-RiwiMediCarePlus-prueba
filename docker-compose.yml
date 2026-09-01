@@ -13,7 +13,8 @@ services:
       JWT_SECRET: secret_key
       JWT_EXPIRES_IN: 1d
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     networks:
       - medicare-network
 
@@ -23,9 +24,16 @@ services:
       POSTGRES_DB: riwi_medicare
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+    ports:
+      - "5435:5432" # Optional: allows connecting from your host machine (e.g. pgAdmin/DBeaver)
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d riwi_medicare"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
       - medicare-network
 

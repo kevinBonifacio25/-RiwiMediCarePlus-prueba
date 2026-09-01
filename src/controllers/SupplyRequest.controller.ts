@@ -11,10 +11,18 @@ import {
   UpdateSupplyRequestStatusDto
 } from "../dto/supplyRequest.dto";
 
+/**
+ * Controlador para la gestión de solicitudes de abastecimiento.
+ * Maneja la creación, seguimiento, historial y actualización de estados.
+ */
 export class SupplyRequestController {
   private readonly service: SupplyRequestService =
     new SupplyRequestService();
 
+  /**
+   * Crea una nueva solicitud de abastecimiento validando clínica, almacén,
+   * medicamento y disponibilidad del inventario.
+   */
   create = async (
     req: Request,
     res: Response,
@@ -33,6 +41,9 @@ export class SupplyRequestController {
     }
   };
 
+  /**
+   * Cambia el estado de una solicitud (pendiente, aprobada, rechazada, etc.).
+   */
   updateStatus = async (
     req: Request,
     res: Response,
@@ -53,6 +64,9 @@ export class SupplyRequestController {
     }
   };
 
+  /**
+   * Consulta las solicitudes que siguen activas en el sistema.
+   */
   active = async (
     req: Request,
     res: Response,
@@ -68,6 +82,9 @@ export class SupplyRequestController {
     }
   };
 
+  /**
+   * Obtiene el historial de solicitudes asociado a una clínica.
+   */
   history = async (
     req: Request,
     res: Response,
@@ -85,6 +102,9 @@ export class SupplyRequestController {
     }
   };
 
+  /**
+   * Elimina lógicamente una solicitud cuando ya no debe estar activa.
+   */
   remove = async (
     req: Request,
     res: Response,

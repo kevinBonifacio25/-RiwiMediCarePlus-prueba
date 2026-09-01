@@ -1,0 +1,66 @@
+{
+  "users": [
+    {
+      "name": "Admin Riwi",
+      "email": "admin@riwi.com",
+      "password": "Admin123",
+      "role": "ADMIN"
+    },
+    {
+      "name": "Request Manager",
+      "email": "manager@riwi.com",
+      "password": "Manager123",
+      "role": "REQUEST_MANAGER"
+    }
+  ],
+  "clinics": [
+    {
+      "name": "Clínica Norte",
+      "nit": "900123456-1",
+      "responsibleName": "Ana Pérez",
+      "responsibleEmail": "ana@clinica.com"
+    },
+    {
+      "name": "Clínica Sur",
+      "nit": "900123456-2",
+      "responsibleName": "Carlos Gómez",
+      "responsibleEmail": "carlos@clinica.com"
+    }
+  ],
+  "warehouses": [
+    {
+      "name": "Almacén Central",
+      "location": "Barranquilla"
+    },
+    {
+      "name": "Almacén Norte",
+      "location": "Soledad"
+    }
+  ],
+  "medicines": [
+    {
+      "name": "Paracetamol",
+      "description": "Analgésico y antipirético",
+      "stock": 120,
+      "warehouseId": 1
+    },
+    {
+      "name": "Ibuprofeno",
+      "description": "Antiinflamatorio",
+      "stock": 90,
+      "warehouseId": 1
+    },
+    {
+      "name": "Amoxicilina",
+      "description": "Antibiótico oral",
+      "stock": 75,
+      "warehouseId": 2
+    },
+    {
+      "name": "Vitamina C",
+      "description": "Suplemento vitamínico",
+      "stock": 150,
+      "warehouseId": 2
+    }
+  ]
+}
