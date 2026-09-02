@@ -18,6 +18,8 @@ export class MedicineRepository extends BaseRepository<Medicine, any, any> {
    * @returns El medicamento encontrado o null si no existe.
    */
   async findAvailable(medicineId: number, warehouseId: number): Promise<Medicine | null> {
-    return Medicine.findOne({ where: { id: medicineId, warehouseId, status: "ACTIVE" } as any });
+    return Medicine.findOne({
+       where: 
+      { id: medicineId, warehouseId, status: "ACTIVE" } as any });
   }
 }
