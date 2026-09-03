@@ -24,7 +24,7 @@ import { MedicineRepository } from "./repository/medicine.repository";
 import Warehouse from "./models/wareHouse.model";
 import Medicine from "./models/medicine.model";
 import { errorHandler } from "./middlewares/error.middleware";
-import "./models";
+
 
 const app = express();
 app.use(express.json());
