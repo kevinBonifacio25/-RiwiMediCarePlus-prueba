@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Riwi MediCare Plus — Frontend</title>
+  <style>
+    :root {
+      --primary: #0ea5e9;
+      --primary-dark: #0284c7;
+      --primary-light: #e0f2fe;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-300: #cbd5e1;
+      --gray-500: #64748b;
+      --gray-700: #334155;
+      --gray-900: #0f172a;
+      --shadow: 0 1px 3px rgba(0,0,0,.1), 0 1px 2px rgba(0,0,0,.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1);
+      --radius: 10px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--gray-100);
+      color: var(--gray-900);
+      min-height: 100vh;
+    }
+
+    /* ===== LOGIN ===== */
+    .login-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--primary-dark) 0%, #0b7285 100%);
+      padding: 20px;
+    }
+    .login-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+      width: 100%;
+      max-width: 400px;
+      padding: 40px 32px;
+    }
+    .login-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .login-logo .icon {
+      width: 56px; height: 56px;
+      background: var(--primary);
+      border-radius: 14px;
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px;
+    }
+    .login-logo h1 { font-size: 22px; color: var(--gray-900); }
+    .login-logo p { font-size: 13px; color: var(--gray-500); }
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 6px;
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--gray-300);
+      border-radius: 8px;
+      font-size: 14px;
+      background: #fff;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(14,165,233,.15);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-success { background: var(--success); color: #fff; }
+    .btn-danger { background: var(--danger); color: #fff; }
+    .btn-ghost { background: transparent; color: var(--gray-700); border: 1px solid var(--gray-300); }
+    .btn-sm { padding: 6px 12px; font-size: 12px; }
+    .btn-block { width: 100%; }
+    .demo-hint {
+      margin-top: 20px;
+      padding: 12px;
+      background: var(--primary-light);
+      border-radius: 8px;
+      font-size: 12.5px;
+      color: var(--primary-dark);
+      text-align: center;
+      line-height: 1.6;
+    }
+    .demo-hint strong { display: block; }
+
+    /* ===== APP LAYOUT ===== */
+    .app { display: none; min-height: 100vh; }
+    .app.active { display: flex; }
+    .sidebar {
+      width: 240px;
+      background: var(--gray-900);
+      color: #fff;
+      padding: 20px 0;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 18px 20px;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      margin-bottom: 14px;
+    }
+    .sidebar-brand .icon {
+      width: 34px; height: 34px;
+      background: var(--primary);
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px;
+    }
+    .sidebar-brand span { font-size: 14px; font-weight: 700; }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 18px;
+      color: #cbd5e1;
+      font-size: 14px;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+    }
+    .nav-item:hover { background: rgba(255,255,255,.06); color: #fff; }
+    .nav-item.active {
+      background: rgba(14,165,233,.15);
+      color: var(--primary);
+      border-left-color: var(--primary);
+    }
+    .nav-item .emoji { width: 20px; text-align: center; }
+
+    .main {
+      flex: 1;
+      padding: 24px 32px;
+      min-width: 0;
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .page-title h2 { font-size: 22px; margin-bottom: 4px; }
+    .page-title p { font-size: 13px; color: var(--gray-500); }
+    .user-chip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      padding: 8px 14px;
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+    }
+    .avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700;
+    }
+    .user-chip .user-info { line-height: 1.2; }
+    .user-chip .user-info .name { font-size: 13px; font-weight: 600; }
+    .user-chip .user-info .role { font-size: 11px; color: var(--gray-500); }
+    .user-chip .logout {
+      background: none; border: none; cursor: pointer;
+      color: var(--gray-500); font-size: 16px; margin-left: 6px;
+    }
+
+    /* ===== STATS CARDS ===== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+    .stat-card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      border-left: 4px solid var(--primary);
+    }
+    .stat-card .stat-label { font-size: 12px; color: var(--gray-500); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
+    .stat-card .stat-value { font-size: 30px; font-weight: 700; margin-top: 6px; }
+    .stat-card.blue { border-left-color: var(--primary); }
+    .stat-card.green { border-left-color: var(--success); }
+    .stat-card.orange { border-left-color: var(--warning); }
+    .stat-card.red { border-left-color: var(--danger); }
+
+    /* ===== CARDS & TABLES ===== */
+    .card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .card-header h3 { font-size: 16px; }
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .toolbar input[type="search"] {
+      padding: 8px 12px;
+      border: 1px solid var(--gray-300);
+      border-radius: 8px;
+      font-size: 13px;
+      width: 220px;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      text-align: left;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: var(--gray-500);
+      background: var(--gray-50);
+      padding: 12px 20px;
+      font-weight: 600;
+    }
+    tbody td {
+      padding: 13px 20px;
+      border-top: 1px solid var(--gray-200);
+      font-size: 13.5px;
+    }
+    tbody tr:hover { background: var(--gray-50); }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .badge.active, .badge.completed, .badge.approved { background: #d1fae5; color: #047857; }
+    .badge.pending { background: #fef3c7; color: #b45309; }
+    .badge.rejected, .badge.deleted { background: #fee2e2; color: #b91c1c; }
+    .badge.admin { background: var(--primary-light); color: var(--primary-dark); }
+    .badge.manager { background: #ede9fe; color: #6d28d9; }
+    .badge.inactive { background: var(--gray-200); color: var(--gray-700); }
+
+    .table-actions { display: flex; gap: 6px; }
+    .row-actions {
+      display: flex; gap: 4px;
+      opacity: 0;
+      transition: opacity .15s;
+    }
+    tbody tr:hover .row-actions { opacity: 1; }
+    .icon-btn {
+      background: none; border: 1px solid var(--gray-300);
+      border-radius: 6px;
+      width: 28px; height: 28px;
+      cursor: pointer;
+      font-size: 13px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .icon-btn.edit:hover { background: var(--primary-light); }
+    .icon-btn.delete:hover { background: #fee2e2; }
+
+    /* ===== MODAL ===== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,.5);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: #fff;
+      border-radius: 14px;
+      width: 100%;
+      max-width: 520px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+    }
+    .modal-header {
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-header h3 { font-size: 18px; }
+    .modal-close { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--gray-500); }
+    .modal-body { padding: 22px; }
+    .modal-footer {
+      padding: 16px 22px;
+      border-top: 1px solid var(--gray-200);
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    /* ===== FORM LAYOUT ===== */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-grid .full { grid-column: 1 / -1; }
+
+    /* ===== STATUS FLOW ===== */
+    .flow-steps { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .flow-step {
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--gray-200);
+      color: var(--gray-500);
+    }
+    .flow-step.done { background: #d1fae5; color: #047857; }
+    .flow-step.current { background: var(--primary); color: #fff; }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--gray-500);
+    }
+    .empty-state .big { font-size: 40px; margin-bottom: 10px; }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--gray-900);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: var(--shadow-lg);
+      font-size: 14px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all .25s;
+      z-index: 2000;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    .view { display: none; }
+    .view.active { display: block; }
+  </style>
+</head>
+<body>
+  <!-- ================= LOGIN ================= -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-card">
+      <div class="login-logo">
+        <div class="icon">🏥</div>
+        <h1>Riwi MediCare Plus</h1>
+        <p>Sistema de Gestión de Suministros Médicos</p>
+      </div>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="loginEmail">Correo electrónico</label>
+          <input type="email" id="loginEmail" placeholder="correo@ejemplo.com" required />
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Contraseña</label>
+          <input type="password" id="loginPassword" placeholder="••••••••" required />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
+      </form>
+      <div class="demo-hint">
+        <strong>Credenciales de demo</strong>
+        Admin: admin@riwi.com / Admin123<br />
+        Manager: manager@riwi.com / Manager123
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= APP ================= -->
+  <div class="app" id="app">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="icon">🏥</div>
+        <span>Riwi MediCare</span>
+      </div>
+      <nav>
+        <div class="nav-item active" data-view="dashboard"><span class="emoji">📊</span> Dashboard</div>
+        <div class="nav-item" data-view="clinics"><span class="emoji">🏨</span> Clínicas</div>
+        <div class="nav-item" data-view="warehouses"><span class="emoji">🏬</span> Almacenes</div>
+        <div class="nav-item" data-view="medicines"><span class="emoji">💊</span> Medicamentos</div>
+        <div class="nav-item" data-view="requests"><span class="emoji">📦</span> Solicitudes</div>
+        <div class="nav-item" data-view="users"><span class="emoji">👤</span> Usuarios</div>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div class="page-title">
+          <h2 id="pageTitle">Dashboard</h2>
+          <p id="pageSubtitle">Resumen general del sistema</p>
+        </div>
+        <div class="user-chip">
+          <div class="avatar" id="avatar">A</div>
+          <div class="user-info">
+            <div class="name" id="userName">Admin</div>
+            <div class="role" id="userRole">ADMIN</div>
+          </div>
+          <button class="logout" id="logoutBtn" title="Cerrar sesión">⏻</button>
+        </div>
+      </div>
+
+      <!-- ===== DASHBOARD ===== -->
+      <section class="view active" id="view-dashboard">
+        <div class="stats-grid">
+          <div class="stat-card blue"><div class="stat-label">Clínicas</div><div class="stat-value" id="statClinics">0</div></div>
+          <div class="stat-card green"><div class="stat-label">Almacenes</div><div class="stat-value" id="statWarehouses">0</div></div>
+          <div class="stat-card orange"><div class="stat-label">Medicamentos</div><div class="stat-value" id="statMedicines">0</div></div>
+          <div class="stat-card red"><div class="stat-label">Solicitudes Pendientes</div><div class="stat-value" id="statPending">0</div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>📋 Solicitudes recientes</h3></div>
+          <table>
+            <thead><tr><th>ID</th><th>Clínica</th><th>Medicamento</th><th>Cant.</th><th>Estado</th><th>Fecha</th></tr></thead>
+            <tbody id="dashboardRequests"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===== CLINICS ===== -->
+      <section class="view" id="view-clinics">
+        <div class="card">
+          <div class="card-header">
+            <h3>🏨 Clínicas registradas</h3>
+            <div class="toolbar">
+              <input type="search" placeholder="Buscar clínica..." oninput="filterTable('clinics', this.value)" />
+              <button class="btn btn-primary btn-sm" onclick="openModal('clinic')">+ Nueva Clínica</button>
+            </div>
+          </div>
+          <table>
+            <thead><tr><th>ID</th><th>Nombre</th><th>NIT</th><th>Responsable (User)</th><th>Estado</th><th>Acciones</th></tr></thead>
+            <tbody id="clinicsTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===== WAREHOUSES ===== -->
+      <section class="view" id="view-warehouses">
+        <div class="card">
+          <div class="card-header">
+            <h3>🏬 Almacenes</h3>
+            <div class="toolbar">
+              <input type="search" placeholder="Buscar almacén..." oninput="filterTable('warehouses', this.value)" />
+              <button class="btn btn-primary btn-sm" onclick="openModal('warehouse')">+ Nuevo Almacén</button>
+            </div>
+          </div>
+          <table>
+            <thead><tr><th>ID</th><th>Nombre</th><th>Ubicación</th><th>Responsable (User)</th><th>Estado</th><th>Acciones</th></tr></thead>
+            <tbody id="warehousesTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===== MEDICINES ===== -->
+      <section class="view" id="view-medicines">
+        <div class="card">
+          <div class="card-header">
+            <h3>💊 Medicamentos</h3>
+            <div class="toolbar">
+              <input type="search" placeholder="Buscar medicamento..." oninput="filterTable('medicines', this.value)" />
+              <button class="btn btn-primary btn-sm" onclick="openModal('medicine')">+ Nuevo Medicamento</button>
+            </div>
+          </div>
+          <table>
+            <thead><tr><th>ID</th><th>Nombre</th><th>Descripción</th><th>Stock</th><th>Almacén</th><th>Estado</th><th>Acciones</th></tr></thead>
+            <tbody id="medicinesTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===== REQUESTS ===== -->
+      <section class="view" id="view-requests">
+        <div class="card">
+          <div class="card-header">
+            <h3>📦 Solicitudes de abastecimiento</h3>
+            <div class="toolbar">
+              <button class="btn btn-primary btn-sm" onclick="openModal('request')">+ Nueva Solicitud</button>
+            </div>
+          </div>
+          <table>
+            <thead><tr><th>ID</th><th>Clínica</th><th>Medicamento</th><th>Cant.</th><th>Almacén</th><th>Solicitado por</th><th>Estado</th><th>Acciones</th></tr></thead>
+            <tbody id="requestsTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===== USERS ===== -->
+      <section class="view" id="view-users">
+        <div class="card">
+          <div class="card-header">
+            <h3>👤 Usuarios del sistema</h3>
+            <div class="toolbar">
+              <button class="btn btn-primary btn-sm" onclick="openModal('user')">+ Nuevo Usuario</button>
+            </div>
+          </div>
+          <table>
+            <thead><tr><th>ID</th><th>Nombre</th><th>Email</th><th>Rol</th><th>Estado</th><th>Acciones</th></tr></thead>
+            <tbody id="usersTable"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ================= MODAL ================= -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modalTitle">Título</h3>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="modalForm" onsubmit="return handleFormSubmit(event)">
+          <div id="modalFields"></div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+        <button class="btn btn-primary" onclick="document.getElementById('modalForm').requestSubmit()">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+  // ============ DATOS DE DEMO ============
+  let currentUser = null;
+  let currentModal = null;
+
+  const users = [
+    { id: 1, name: "Admin Riwi", email: "admin@riwi.com", password: "Admin123", role: "ADMIN", status: "ACTIVE" },
+    { id: 2, name: "Request Manager", email: "manager@riwi.com", password: "Manager123", role: "REQUEST_MANAGER", status: "ACTIVE" }
+  ];
+  const clinics = [
+    { id: 1, userId: 1, name: "Clínica Norte", nit: "900123456-1", status: "ACTIVE" },
+    { id: 2, userId: 2, name: "Clínica Sur", nit: "900123456-2", status: "ACTIVE" }
+  ];
+  const warehouses = [
+    { id: 1, userId: 1, name: "Almacén Central", location: "Barranquilla", status: "ACTIVE" },
+    { id: 2, userId: 2, name: "Almacén Norte", location: "Soledad", status: "ACTIVE" }
+  ];
+  const medicines = [
+    { id: 1, name: "Paracetamol", description: "Analgésico y antipirético", stock: 120, warehouseId: 1, status: "ACTIVE" },
+    { id: 2, name: "Ibuprofeno", description: "Antiinflamatorio", stock: 90, warehouseId: 1, status: "ACTIVE" },
+    { id: 3, name: "Amoxicilina", description: "Antibiótico oral", stock: 75, warehouseId: 2, status: "ACTIVE" },
+    { id: 4, name: "Vitamina C", description: "Suplemento vitamínico", stock: 150, warehouseId: 2, status: "ACTIVE" }
+  ];
+  let requests = [
+    { id: 1, userId: 2, clinicId: 1, medicineId: 1, warehouseId: 1, quantity: 10, requestStatus: "PENDING", createdAt: "2026-09-01" },
+    { id: 2, userId: 2, clinicId: 2, medicineId: 3, warehouseId: 2, quantity: 5, requestStatus: "APPROVED", createdAt: "2026-09-02" },
+    { id: 3, userId: 1, clinicId: 1, medicineId: 2, warehouseId: 1, quantity: 20, requestStatus: "COMPLETED", createdAt: "2026-09-03" }
+  ];
+
+  const nameById = (arr, id) => {
+    const item = arr.find(a => a.id === id);
+    return item ? item.name : "—";
+  };
+
+  // ============ LOGIN ============
+  document.getElementById("loginForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPassword").value;
+    const user = users.find(u => u.email === email && u.password === password);
+    if (!user) { showToast("Credenciales inválidas"); return; }
+    currentUser = user;
+    document.getElementById("loginScreen").style.display = "none";
+    document.getElementById("app").classList.add("active");
+    document.getElementById("userName").textContent = user.name;
+    document.getElementById("userRole").textContent = user.role;
+    document.getElementById("avatar").textContent = user.name[0];
+    showView("dashboard");
+  });
+
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    currentUser = null;
+    document.getElementById("app").classList.remove("active");
+    document.getElementById("loginScreen").style.display = "flex";
+    showToast("Sesión cerrada");
+  });
+
+  // ============ NAVEGACIÓN ============
+  document.querySelectorAll(".nav-item").forEach(item => {
+    item.addEventListener("click", () => showView(item.dataset.view));
+  });
+
+  function showView(view) {
+    document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
+    document.querySelector(`.nav-item[data-view="${view}"]`).classList.add("active");
+    document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+    document.getElementById("view-" + view).classList.add("active");
+
+    const titles = {
+      dashboard: ["Dashboard", "Resumen general del sistema"],
+      clinics: ["Clínicas", "Gestión de clínicas registradas"],
+      warehouses: ["Almacenes", "Gestión de almacenes"],
+      medicines: ["Medicamentos", "Inventario de medicamentos"],
+      requests: ["Solicitudes", "Solicitudes de abastecimiento"],
+      users: ["Usuarios", "Usuarios del sistema"]
+    };
+    const [t, s] = titles[view];
+    document.getElementById("pageTitle").textContent = t;
+    document.getElementById("pageSubtitle").textContent = s;
+
+    renderAll();
+  }
+
+  // ============ RENDER ============
+  function renderAll() {
+    renderStats();
+    renderClinics();
+    renderWarehouses();
+    renderMedicines();
+    renderRequests();
+    renderUsers();
+    renderDashboard();
+  }
+
+  function renderStats() {
+    document.getElementById("statClinics").textContent = clinics.filter(c=>c.status==="ACTIVE").length;
+    document.getElementById("statWarehouses").textContent = warehouses.filter(w=>w.status==="ACTIVE").length;
+    document.getElementById("statMedicines").textContent = medicines.filter(m=>m.status==="ACTIVE").length;
+    document.getElementById("statPending").textContent = requests.filter(r=>r.requestStatus==="PENDING").length;
+  }
+
+  function renderDashboard() {
+    const tbody = document.getElementById("dashboardRequests");
+    const recent = [...requests].sort((a,b) => b.id - a.id).slice(0,5);
+    tbody.innerHTML = recent.map(r => `
+      <tr>
+        <td>#${r.id}</td>
+        <td>${nameById(clinics, r.clinicId)}</td>
+        <td>${nameById(medicines, r.medicineId)}</td>
+        <td>${r.quantity}</td>
+        <td><span class="badge ${r.requestStatus.toLowerCase()}">${r.requestStatus}</span></td>
+        <td>${r.createdAt}</td>
+      </tr>`).join("") || `<tr><td colspan="6"><div class="empty-state"><div class="big">📦</div>Sin solicitudes</div></td></tr>`;
+  }
+
+  function renderClinics() {
+    document.getElementById("clinicsTable").innerHTML = clinics.map(c => `
+      <tr>
+        <td>${c.id}</td><td>${c.name}</td><td>${c.nit}</td>
+        <td>${nameById(users, c.userId)}</td>
+        <td><span class="badge ${c.status.toLowerCase()}">${c.status}</span></td>
+        <td>
+          <div class="row-actions">
+            <button class="icon-btn edit" title="Editar" onclick="openModal('clinic', ${c.id})">✏️</button>
+            <button class="icon-btn delete" title="Eliminar" onclick="deleteRecord('clinics', ${c.id})">🗑️</button>
+          </div>
+        </td>
+      </tr>`).join("");
+  }
+
+  function renderWarehouses() {
+    document.getElementById("warehousesTable").innerHTML = warehouses.map(w => `
+      <tr>
+        <td>${w.id}</td><td>${w.name}</td><td>${w.location}</td>
+        <td>${nameById(users, w.userId)}</td>
+        <td><span class="badge ${w.status.toLowerCase()}">${w.status}</span></td>
+        <td>
+          <div class="row-actions">
+            <button class="icon-btn edit" title="Editar" onclick="openModal('warehouse', ${w.id})">✏️</button>
+            <button class="icon-btn delete" title="Eliminar" onclick="deleteRecord('warehouses', ${w.id})">🗑️</button>
+          </div>
+        </td>
+      </tr>`).join("");
+  }
+
+  function renderMedicines() {
+    document.getElementById("medicinesTable").innerHTML = medicines.map(m => `
+      <tr>
+        <td>${m.id}</td><td>${m.name}</td><td>${m.description}</td>
+        <td><strong>${m.stock}</strong></td>
+        <td>${nameById(warehouses, m.warehouseId)}</td>
+        <td><span class="badge ${m.status.toLowerCase()}">${m.status}</span></td>
+        <td>
+          <div class="row-actions">
+            <button class="icon-btn edit" title="Editar" onclick="openModal('medicine', ${m.id})">✏️</button>
+            <button class="icon-btn delete" title="Eliminar" onclick="deleteRecord('medicines', ${m.id})">🗑️</button>
+          </div>
+        </td>
+      </tr>`).join("");
+  }
+
+  function renderRequests() {
+    document.getElementById("requestsTable").innerHTML = requests.map(r => `
+      <tr>
+        <td>#${r.id}</td>
+        <td>${nameById(clinics, r.clinicId)}</td>
+        <td>${nameById(medicines, r.medicineId)}</td>
+        <td>${r.quantity}</td>
+        <td>${nameById(warehouses, r.warehouseId)}</td>
+        <td>${nameById(users, r.userId)}</td>
+        <td>
+          <span class="badge ${r.requestStatus.toLowerCase()}">${r.requestStatus}</span>
+          <div class="flow-steps" style="margin-top:6px">
+            <span class="flow-step ${['PENDING','APPROVED','COMPLETED'].includes(r.requestStatus) ? 'done' : ''}">PENDIENTE</span>
+            <span class="flow-step ${['APPROVED','COMPLETED'].includes(r.requestStatus) ? 'done' : ''}">APROBADO</span>
+            <span class="flow-step ${r.requestStatus==='COMPLETED' ? 'done' : ''}">COMPLETADO</span>
+          </div>
+        </td>
+        <td>
+          <div class="row-actions">
+            <button class="icon-btn edit" title="Cambiar estado" onclick="changeStatus(${r.id})">⚙️</button>
+            <button class="icon-btn delete" title="Eliminar" onclick="deleteRecord('requests', ${r.id})">🗑️</button>
+          </div>
+        </td>
+      </tr>`).join("");
+  }
+
+  function renderUsers() {
+    document.getElementById("usersTable").innerHTML = users.map(u => `
+      <tr>
+        <td>${u.id}</td><td>${u.name}</td><td>${u.email}</td>
+        <td><span class="badge ${u.role === "ADMIN" ? "admin" : "manager"}">${u.role}</span></td>
+        <td><span class="badge ${u.status.toLowerCase()}">${u.status}</span></td>
+        <td>
+          <div class="row-actions">
+            <button class="icon-btn edit" title="Editar" onclick="openModal('user', ${u.id})">✏️</button>
+          </div>
+        </td>
+      </tr>`).join("");
+  }
+
+  // ============ MODAL ============
+  function openModal(type, id) {
+    currentModal = { type, id: id || null };
+    const title = document.getElementById("modalTitle");
+    const fields = document.getElementById("modalFields");
+    let html = "";
+
+    if (type === "clinic") {
+      title.textContent = id ? "Editar Clínica" : "Nueva Clínica";
+      const c = clinics.find(x => x.id === id);
+      html = `
+        <div class="form-group"><label>Nombre</label><input name="name" value="${c?.name||''}" required /></div>
+        <div class="form-group"><label>NIT</label><input name="nit" value="${c?.nit||''}" required /></div>
+        <div class="form-group"><label>Responsable (Usuario)</label>
+          <select name="userId">${users.map(u => `<option value="${u.id}" ${c&&c.userId===u.id?'selected':''}>${u.name}</option>`).join("")}</select>
+        </div>`;
+    } else if (type === "warehouse") {
+      title.textContent = id ? "Editar Almacén" : "Nuevo Almacén";
+      const w = warehouses.find(x => x.id === id);
+      html = `
+        <div class="form-group"><label>Nombre</label><input name="name" value="${w?.name||''}" required /></div>
+        <div class="form-group"><label>Ubicación</label><input name="location" value="${w?.location||''}" required /></div>
+        <div class="form-group"><label>Responsable (Usuario)</label>
+          <select name="userId">${users.map(u => `<option value="${u.id}" ${w&&w.userId===u.id?'selected':''}>${u.name}</option>`).join("")}</select>
+        </div>`;
+    } else if (type === "medicine") {
+      title.textContent = id ? "Editar Medicamento" : "Nuevo Medicamento";
+      const m = medicines.find(x => x.id === id);
+      html = `
+        <div class="form-grid">
+          <div class="form-group"><label>Nombre</label><input name="name" value="${m?.name||''}" required /></div>
+          <div class="form-group"><label>Stock</label><input name="stock" type="number" min="0" value="${m?.stock||0}" required /></div>
+          <div class="form-group full"><label>Descripción</label><input name="description" value="${m?.description||''}" /></div>
+          <div class="form-group full"><label>Almacén</label>
+            <select name="warehouseId">${warehouses.map(w => `<option value="${w.id}" ${m&&m.warehouseId===w.id?'selected':''}>${w.name}</option>`).join("")}</select>
+          </div>
+        </div>`;
+    } else if (type === "request") {
+      title.textContent = "Nueva Solicitud";
+      html = `
+        <div class="form-grid">
+          <div class="form-group"><label>Clínica</label>
+            <select name="clinicId">${clinics.map(c => `<option value="${c.id}">${c.name}</option>`).join("")}</select></div>
+          <div class="form-group"><label>Medicamento</label>
+            <select name="medicineId">${medicines.map(m => `<option value="${m.id}">${m.name}</option>`).join("")}</select></div>
+          <div class="form-group"><label>Almacén</label>
+            <select name="warehouseId">${warehouses.map(w => `<option value="${w.id}">${w.name}</option>`).join("")}</select></div>
+          <div class="form-group"><label>Cantidad</label><input name="quantity" type="number" min="1" value="1" required /></div>
+        </div>`;
+    } else if (type === "user") {
+      title.textContent = "Nuevo Usuario";
+      html = `
+        <div class="form-group"><label>Nombre</label><input name="name" required /></div>
+        <div class="form-group"><label>Email</label><input name="email" type="email" required /></div>
+        <div class="form-group"><label>Contraseña</label><input name="password" type="password" required /></div>
+        <div class="form-group"><label>Rol</label>
+          <select name="role"><option value="ADMIN">ADMIN</option><option value="REQUEST_MANAGER">REQUEST_MANAGER</option></select>
+        </div>`;
+    }
+    fields.innerHTML = html;
+    document.getElementById("modalOverlay").classList.add("open");
+  }
+
+  function closeModal() {
+    document.getElementById("modalOverlay").classList.remove("open");
+    currentModal = null;
+  }
+
+  function handleFormSubmit(e) {
+    e.preventDefault();
+    if (!currentModal) return false;
+    const data = Object.fromEntries(new FormData(e.target).entries());
+    const { type, id } = currentModal;
+
+    if (type === "clinic") {
+      if (id) { const c = clinics.find(x => x.id === id); Object.assign(c, data); }
+      else clinics.push({ id: clinics.length + 1, ...data, status: "ACTIVE" });
+    } else if (type === "warehouse") {
+      if (id) { const w = warehouses.find(x => x.id === id); Object.assign(w, data); }
+      else warehouses.push({ id: warehouses.length + 1, ...data, status: "ACTIVE" });
+    } else if (type === "medicine") {
+      data.stock = parseInt(data.stock);
+      if (id) { const m = medicines.find(x => x.id === id); Object.assign(m, data); }
+      else medicines.push({ id: medicines.length + 1, ...data, status: "ACTIVE" });
+    } else if (type === "request") {
+      data.quantity = parseInt(data.quantity);
+      data.userId = currentUser.id;
+      requests.push({ id: requests.length + 1, ...data, requestStatus: "PENDING", createdAt: new Date().toISOString().slice(0,10) });
+    } else if (type === "user") {
+      users.push({ id: users.length + 1, ...data, status: "ACTIVE" });
+    }
+    closeModal();
+    renderAll();
+    showToast("Registro guardado correctamente");
+    return false;
+  }
+
+  function deleteRecord(table, id) {
+    const data = { clinics, warehouses, medicines, requests, users }[table];
+    const item = data.find(x => x.id === id);
+    if (item && "status" in item) item.status = "DELETED";
+    else data = data.filter(x => x.id !== id);
+    renderAll();
+    showToast("Registro eliminado (lógico)");
+  }
+
+  function changeStatus(id) {
+    const r = requests.find(x => x.id === id);
+    if (!r) return;
+    const order = ["PENDING", "APPROVED", "REJECTED", "COMPLETED"];
+    const next = order[(order.indexOf(r.requestStatus) + 1) % order.length];
+    r.requestStatus = next;
+    renderAll();
+    showToast(`Estado actualizado a ${next}`);
+  }
+
+  // ============ BÚSQUEDA ============
+  function filterTable(table, query) {
+    query = query.toLowerCase();
+    const rows = {
+      clinics: document.getElementById("clinicsTable"),
+      warehouses: document.getElementById("warehousesTable"),
+      medicines: document.getElementById("medicinesTable")
+    }[table];
+    rows.querySelectorAll("tr").forEach(tr => {
+      tr.style.display = tr.textContent.toLowerCase().includes(query) ? "" : "none";
+    });
+  }
+
+  // ============ TOAST ============
+  function showToast(msg) {
+    const t = document.getElementById("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    setTimeout(() => t.classList.remove("show"), 2500);
+  }
+</script>
+</body>
+</html>

@@ -26,12 +26,11 @@
  *         application/json:
  *           schema:
  *             type: object
- *             required: [name, nit, responsibleName, responsibleEmail]
+ *             required: [userId, name, nit]
  *             properties:
+ *               userId: { type: integer, example: 1 }
  *               name: { type: string, example: Clínica Norte }
  *               nit: { type: string, example: 900123456-1 }
- *               responsibleName: { type: string, example: Ana Pérez }
- *               responsibleEmail: { type: string, example: ana@clinica.com }
  *     responses:
  *       201: { description: Clínica creada }
  *       400: { description: NIT duplicado o datos inválidos }
@@ -72,7 +71,7 @@
  *         application/json:
  *           example:
  *             name: Clínica Norte Actualizada
- *             responsibleName: Carlos Gómez
+ *             userId: 2
  *     responses:
  *       200: { description: Clínica actualizada }
  *       404: { description: Clínica no encontrada }

@@ -17,7 +17,7 @@ export class SupplyRequestService {
   /**
    * Crea una solicitud después de validar clínica, almacén, medicamento y stock disponible.
    */
-  async create(data: { clinicId: number; medicineId: number; warehouseId: number; quantity: number; requestStatus?: RequestStatus }): Promise<SupplyRequest> {
+  async create(data: { userId: number; clinicId: number; medicineId: number; warehouseId: number; quantity: number; requestStatus?: RequestStatus }): Promise<SupplyRequest> {
     if (data.quantity <= 0) throw new Error("Quantity must be greater than zero");
 
     const clinic = await this.clinicRepository.findById(data.clinicId);
