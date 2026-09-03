@@ -33,5 +33,5 @@ export class CrudService<T extends Model, CreateDto, UpdateDto> {
   /**
    * Elimina de forma lógica el recurso marcándolo como eliminado.
    */
-  async softDelete(id: number): Promise<T> { return this.update(id, { status: "DELETED" } as UpdateDto); }
+  async softDelete(id: number): Promise<T> { return this.update(id, { status: "DELETED" } as UpdateDto); } 
 }

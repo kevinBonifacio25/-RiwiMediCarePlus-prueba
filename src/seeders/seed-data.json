@@ -15,24 +15,24 @@
   ],
   "clinics": [
     {
+      "userId": 1,
       "name": "Clínica Norte",
-      "nit": "900123456-1",
-      "responsibleName": "Ana Pérez",
-      "responsibleEmail": "ana@clinica.com"
+      "nit": "900123456-1"
     },
     {
+      "userId": 2,
       "name": "Clínica Sur",
-      "nit": "900123456-2",
-      "responsibleName": "Carlos Gómez",
-      "responsibleEmail": "carlos@clinica.com"
+      "nit": "900123456-2"
     }
   ],
   "warehouses": [
     {
+      "userId": 1,
       "name": "Almacén Central",
       "location": "Barranquilla"
     },
     {
+      "userId": 2,
       "name": "Almacén Norte",
       "location": "Soledad"
     }

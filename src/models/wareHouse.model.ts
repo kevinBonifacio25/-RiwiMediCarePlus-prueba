@@ -4,6 +4,7 @@ import { RecordStatus } from "../types/enums.types";
 
 interface WarehouseAttributes {
   id: number;
+  userId: number;
   name: string;
   location: string;
   status: RecordStatus;
@@ -18,6 +19,7 @@ class Warehouse
   implements WarehouseAttributes
 {
   public id!: number;
+  public userId!: number;
   public name!: string;
   public location!: string;
   public status!: RecordStatus;
@@ -26,6 +28,11 @@ class Warehouse
 Warehouse.init(
   {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: { model: "users", key: "id" },
+    },
     name: { type: DataTypes.STRING, allowNull: false },
     location: { type: DataTypes.STRING, allowNull: false },
     status: {

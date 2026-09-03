@@ -8,6 +8,13 @@ import { RequestStatus } from "../types/enums.types";
  */
 export interface CreateSupplyRequestDto {
   /**
+   * Identificador del usuario que registra la solicitud.
+   *
+   * @type {number}
+   */
+  userId: number;
+
+  /**
    * Identificador de la clínica que realiza la solicitud.
    *
    * @type {number}

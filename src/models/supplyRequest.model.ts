@@ -4,6 +4,7 @@ import { RequestStatus, RecordStatus } from "../types/enums.types";
 
 interface SupplyRequestAttributes {
   id: number;
+  userId: number;
   clinicId: number;
   medicineId: number;
   warehouseId: number;
@@ -21,6 +22,7 @@ class SupplyRequest
   implements SupplyRequestAttributes
 {
   public id!: number;
+  public userId!: number;
   public clinicId!: number;
   public medicineId!: number;
   public warehouseId!: number;
@@ -32,6 +34,11 @@ class SupplyRequest
 SupplyRequest.init(
   {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: { model: "users", key: "id" },
+    },
     clinicId: { type: DataTypes.INTEGER, allowNull: false },
     medicineId: { type: DataTypes.INTEGER, allowNull: false },
     warehouseId: { type: DataTypes.INTEGER, allowNull: false },

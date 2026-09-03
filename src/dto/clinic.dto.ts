@@ -5,6 +5,13 @@
  */
 export interface CreateClinicDto {
   /**
+   * ID del usuario responsable de la clínica.
+   *
+   * @type {number}
+   */
+  userId: number;
+
+  /**
    * Nombre de la clínica.
    *
    * @type {string}
@@ -18,20 +25,6 @@ export interface CreateClinicDto {
    * @type {string}
    */
   nit: string;
-
-  /**
-   * Nombre del responsable de la clínica.
-   *
-   * @type {string}
-   */
-  responsibleName: string;
-
-  /**
-   * Correo electrónico del responsable de la clínica.
-   *
-   * @type {string}
-   */
-  responsibleEmail: string;
 }
 
 /**
@@ -43,6 +36,13 @@ export interface CreateClinicDto {
  * @interface UpdateClinicDto
  */
 export interface UpdateClinicDto {
+  /**
+   * Nuevo ID del usuario responsable.
+   *
+   * @type {number}
+   */
+  userId?: number;
+
   /**
    * Nuevo nombre de la clínica.
    *
@@ -56,18 +56,4 @@ export interface UpdateClinicDto {
    * @type {string}
    */
   nit?: string;
-
-  /**
-   * Nuevo nombre del responsable.
-   *
-   * @type {string}
-   */
-  responsibleName?: string;
-
-  /**
-   * Nuevo correo electrónico del responsable.
-   *
-   * @type {string}
-   */
-  responsibleEmail?: string;
 }
